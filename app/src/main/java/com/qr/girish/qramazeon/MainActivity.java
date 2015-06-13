@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 
 
@@ -45,7 +46,7 @@ public class MainActivity extends ActionBarActivity implements MyScanner.ResultH
         super.onCreate(state);
         mScannerView = new MyScanner(this);
         setContentView(mScannerView);                // Set the scanner view as the content
-
+        setTitle("Scan Code");
     }
 
     @Override
@@ -108,12 +109,11 @@ public class MainActivity extends ActionBarActivity implements MyScanner.ResultH
                             // FIRE ZE MISSILES!
 
 
-
                             AsyncHttpClient client = new AsyncHttpClient();
                             RequestParams params = new RequestParams();
-                            params.add("controller","item");
-                            params.add("action","getitem");
-                            params.add("barcode",barcode);
+                            params.add("controller", "item");
+                            params.add("action", "getitem");
+                            params.add("barcode", barcode);
                             client.get("http://qr.gear.host/index.php/manager", params, new AsyncHttpResponseHandler() {
 
                                 @Override
@@ -124,11 +124,21 @@ public class MainActivity extends ActionBarActivity implements MyScanner.ResultH
                                 @Override
                                 public void onSuccess(int statusCode, Header[] headers, byte[] response) {
                                     // called when response HTTP status is "200 OK"
-                                    Log.e("JSON",new String(response));
+                                    Log.e("JSON", new String(response));
                                     try {
                                         JSONObject json = new JSONObject(new String(response));
                                         JSONObject result = json.getJSONObject("result");
-                                        new Cart().addToCart(Integer.parseInt(result.getString("itemid")),result.getString("name"),1,Double.parseDouble(result.getString("mrp")));
+
+                                        double price;
+                                        double mrp = Double.parseDouble(result.getString("mrp"));
+                                        System.out.println(result.getString("damt"));
+                                        if (result.getString("damt").equals("null"))
+                                            price = mrp;
+                                        else {
+                                            double discount = Double.parseDouble(result.getString("damt"));
+                                            price = mrp - mrp * discount / 100;
+                                        }
+                                        new Cart().addToCart(Integer.parseInt(result.getString("itemid")), result.getString("name"), 1, price);
                                         System.out.println(new Cart().getCart().get(0).name);
                                     } catch (JSONException e) {
                                         e.printStackTrace();
@@ -147,6 +157,11 @@ public class MainActivity extends ActionBarActivity implements MyScanner.ResultH
                                 }
                             });
 
+                            try {
+                                Thread.sleep(2000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                             startActivity(new Intent(MainActivity.this, CartActivity.class));
                             //new Cart().addToCart()
                             //http://qr.gear.host/index.php/manager
@@ -159,6 +174,32 @@ public class MainActivity extends ActionBarActivity implements MyScanner.ResultH
                     });
             // Create the AlertDialog object and return it
             return builder.create();
+        }
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.swag_list_activity_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        switch (item.getItemId()) {
+            case R.id.action_search:
+                startActivity(new Intent(MainActivity.this, CartActivity.class));
+                return true;
+            case R.id.action_add:
+                //startActivity(new Intent(MainActivity.this, MainActivity.class));
+            case R.id.action_settings:
+                //openSettings();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 }

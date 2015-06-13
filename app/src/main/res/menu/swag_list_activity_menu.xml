@@ -9,6 +9,10 @@
         android:icon="@drawable/addtocart"
         android:title="AddToCart"
         app:showAsAction="always" />
+
+    <item android:id="@+id/action_removeall"
+        android:title="Remove All"
+        android:showAsAction="never" />
     <!-- Settings, should always be in the overflow -->
     <item android:id="@+id/action_settings"
         android:title="@string/action_settings"

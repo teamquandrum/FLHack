@@ -42,7 +42,7 @@ public class NewAdapter extends ArrayAdapter<CartItem> {
         ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
 
 
-        valueView.setText(itemsArrayList.get(position).getDescription()+"");
+        valueView.setText("Rs. " + itemsArrayList.get(position).getDescription());
 
         labelView.setText(itemsArrayList.get(position).getTitle());
         //valueView.setText(itemsArrayList.get(position).getDescription());

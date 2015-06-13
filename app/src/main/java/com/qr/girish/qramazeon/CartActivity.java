@@ -51,7 +51,7 @@ public class CartActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
-        //setTitle("QQC");
+        setTitle("Your Cart");
         //getActionBar().setIcon(R.drawable.my_icon);
 
         lv = (ListView) findViewById(R.id.list_view);
@@ -102,9 +102,22 @@ public class CartActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-
+        switch (item.getItemId()) {
+            case R.id.action_search:
+                //startActivity(new Intent(MainActivity.this, CartActivity.class));
+                return true;
+            case R.id.action_add:
+                startActivity(new Intent(CartActivity.this, MainActivity.class));
+                return true;
+            case R.id.action_removeall:
+                new Cart().deleteAll();
+                Intent intent = getIntent();
+                finish();
+                startActivity(intent);
+                return true;
+            default:
                 return super.onOptionsItemSelected(item);
-
+        }
     }
 
     private ArrayList<CartItem> generateData(){

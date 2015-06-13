@@ -29,6 +29,7 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 
 public class SwagListActivity extends ActionBarActivity {
@@ -68,10 +69,11 @@ public class SwagListActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
-        //setTitle("QQC");
+
         //getActionBar().setIcon(R.drawable.my_icon);
         Intent intent = getIntent();
         shelf = intent.getStringExtra("shelf");
+        setTitle("In Shelf No. " + shelf);
         lv = (ListView) findViewById(R.id.list_view);
 
         String[] gg = {" "};
@@ -246,8 +248,17 @@ public class SwagListActivity extends ActionBarActivity {
             Drawable drawable = null;
             if(askerid[i].equals("null"))
             {
-                Resources res = getResources();
-                drawable = res.getDrawable(R.drawable.newoffer);
+                Random rand = new Random();
+                int r = rand.nextInt(2);
+                if(r == 1) {
+                    Resources res = getResources();
+                    drawable = res.getDrawable(R.drawable.newoffer);
+                }
+                else
+                {
+                    Resources res = getResources();
+                    drawable = res.getDrawable(R.drawable.ic_launcher);
+                }
                 items.add(new Item(title[i],"MRP: Rs. " + body[i], drawable));
                 System.out.println(title[i] + body[i]);
             }
