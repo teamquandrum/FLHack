@@ -55,7 +55,7 @@ public class SwagListActivity extends ActionBarActivity {
 
     String products[]=null;
 
-
+    String shelf;
     // ArrayList for Listview
     ArrayList<HashMap<String, String>> productList;
 
@@ -70,7 +70,8 @@ public class SwagListActivity extends ActionBarActivity {
 
         //setTitle("QQC");
         //getActionBar().setIcon(R.drawable.my_icon);
-
+        Intent intent = getIntent();
+        shelf = intent.getStringExtra("shelf");
         lv = (ListView) findViewById(R.id.list_view);
 
         String[] gg = {" "};

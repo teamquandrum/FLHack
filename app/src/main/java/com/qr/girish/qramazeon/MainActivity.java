@@ -67,13 +67,16 @@ public class MainActivity extends ActionBarActivity implements MyScanner.ResultH
         barcode = rawResult.getContents();
         Log.v(TAG, rawResult.getContents()); // Prints scan results
         Log.v(TAG, rawResult.getBarcodeFormat().getName()); // Prints the scan format (qrcode, pdf417 etc.)
-        startActivity(new Intent(MainActivity.this, SwagListActivity.class));
+        //startActivity(new Intent(MainActivity.this, SwagListActivity.class));
         if(rawResult.getBarcodeFormat().getName().equals("QRCODE"))
         {
             try
             {
                 int i = Integer.parseInt(rawResult.getContents());
-                startActivity(new Intent(MainActivity.this, SwagListActivity.class));
+
+                Intent in = new Intent(MainActivity.this, SwagListActivity.class);
+                in.putExtra("shelf", "" + i);
+                startActivity(in);
             }
             catch(NumberFormatException e)
             {
@@ -144,7 +147,7 @@ public class MainActivity extends ActionBarActivity implements MyScanner.ResultH
                                 }
                             });
 
-
+                            startActivity(new Intent(MainActivity.this, CartActivity.class));
                             //new Cart().addToCart()
                             //http://qr.gear.host/index.php/manager
                         }
