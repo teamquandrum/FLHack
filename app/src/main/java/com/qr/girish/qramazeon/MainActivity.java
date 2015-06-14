@@ -221,6 +221,8 @@ public class FireMissilesDialogFragment extends DialogFragment {
             case R.id.action_search:
                 startActivity(new Intent(MainActivity.this, CartActivity.class));
                 return true;
+            case R.id.action_time:
+                startActivity(new Intent(MainActivity.this, TimeActivity.class));
             case R.id.action_add:
                 //startActivity(new Intent(MainActivity.this, MainActivity.class));
             case R.id.action_settings:

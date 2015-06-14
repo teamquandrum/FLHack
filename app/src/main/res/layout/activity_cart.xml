@@ -25,14 +25,16 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
                 android:onClick="saveCart"
-                android:text="Save This Cart"/>
+                android:text="Save This Cart"
+                android:singleLine="true"/>
 
             <Button
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
                 android:onClick="loadCart"
-                android:text="Load A Cart"/>
+                android:text="Load A Cart"
+                android:singleLine="true"/>
 
         </LinearLayout>
 
@@ -47,28 +49,32 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
                 android:onClick="clear"
-                android:text="Clear All"/>
+                android:text="Clear All"
+                android:singleLine="true"/>
 
             <Button
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
                 android:onClick="finalize"
-                android:text="Finalize"/>
+                android:text="Finalize"
+                android:singleLine="true"/>
 
             <Button
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
                 android:onClick="done"
-                android:text="Checkout"/>
+                android:text="Checkout"
+                android:singleLine="true"/>
 
             <Button
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
                 android:onClick="pay"
-                android:text="Pay"/>
+                android:text="Pay"
+                android:singleLine="true"/>
 
         </LinearLayout>
 

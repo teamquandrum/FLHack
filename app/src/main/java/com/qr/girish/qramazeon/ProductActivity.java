@@ -7,6 +7,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import org.w3c.dom.Text;
 
 
@@ -33,6 +36,22 @@ public class ProductActivity extends ActionBarActivity {
             tv2.setText("No discounts");
         else
             tv2.setText("MRP: Rs. " + mrp + "\n\n" + dname + "\nDiscounted Price: Rs. " + (Double.parseDouble(mrp)-Double.parseDouble(mrp)*Double.parseDouble(damt)/100));
+
+        String keywords[] = name.split(" ");
+
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addKeyword(keywords[1])
+                .addKeyword(keywords[0])
+                .addKeyword(keywords[2])
+                .addKeyword("Lenovo")
+                .addKeyword("Laptop")
+                .addKeyword("Dell")
+                .addKeyword("shirt")
+                .addKeyword("pant")
+                .build();
+        mAdView.loadAd(adRequest);
+
     }
 
 

@@ -1,6 +1,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <!-- Search, should appear as action button -->
+
+    <item android:id="@+id/action_time"
+        android:icon="@drawable/time"
+        android:title="Cart"
+        app:showAsAction="always" />
+
     <item android:id="@+id/action_search"
         android:icon="@drawable/cart"
         android:title="Cart"
@@ -9,10 +15,11 @@
         android:icon="@drawable/addtocart"
         android:title="AddToCart"
         app:showAsAction="always" />
-
+<!--
     <item android:id="@+id/action_removeall"
         android:title="Remove All"
         android:showAsAction="never" />
+        -->
     <!-- Settings, should always be in the overflow -->
     <item android:id="@+id/action_settings"
         android:title="@string/action_settings"

@@ -6,4 +6,6 @@
     <string name="title_activity_list">ListActivity</string>
     <string name="title_activity_product_activty">ProductActivty</string>
     <string name="title_activity_cart">CartActivity</string>
+    <string name="title_activity_time">TimeActivity</string>
+    <string name="banner_ad_unit_id">ca-app-pub-3228809418967204/6605660175</string>
 </resources>
