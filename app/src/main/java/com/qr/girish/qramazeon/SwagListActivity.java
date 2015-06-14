@@ -38,6 +38,7 @@ public class SwagListActivity extends ActionBarActivity {
     String body[];          //mrp
     String askerid[];       //discount
     String qid[];           //barcode
+    String dname[];
     // List view
     String quizName="";
     String quizDate="";
@@ -120,6 +121,7 @@ public class SwagListActivity extends ActionBarActivity {
                     askerid = new String[questions.length()];
                     qid = new String[questions.length()];
 
+                    dname = new String[questions.length()];
                     for(int i=0; i<questions.length();i++)
                     {
                         JSONObject q = questions.getJSONObject(i);
@@ -127,6 +129,7 @@ public class SwagListActivity extends ActionBarActivity {
                         body[i]=q.getString("mrp");
                         askerid[i]=q.getString("damt");
                         qid[i]=q.getString("barcode");
+                        dname[i]=q.getString("dname");
                         System.out.println(title[i]);
                     }
                     System.out.println("sup?");
@@ -155,8 +158,9 @@ public class SwagListActivity extends ActionBarActivity {
                             Intent i = new Intent(SwagListActivity.this, ProductActivity.class);
                             i.putExtra("name", title[position]);
                             i.putExtra("mrp", body[position]);
-                            i.putExtra("discount", qid[position]);
-                            i.putExtra("barcode", askerid[position]); //switch
+                            i.putExtra("barcode", qid[position]);
+                            i.putExtra("discount", askerid[position]);
+                            i.putExtra("dname", dname[position]);
                             startActivity(i);
                         }
                     });

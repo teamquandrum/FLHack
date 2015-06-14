@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/FLHack.iml" filepath="$PROJECT_DIR$/FLHack.iml" />
+      <module fileurl="file://$PROJECT_DIR$/QRAmazeon.iml" filepath="$PROJECT_DIR$/QRAmazeon.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
 </project>
+
