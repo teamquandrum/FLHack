@@ -237,7 +237,15 @@ public class FireMissilesDialogFragment extends DialogFragment {
     }
 
     public void closePopup() {
-        rootLayout.removeView(findViewById(R.id.qr_ground));
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                rootLayout.removeView(findViewById(R.id.qr_ground));
+
+
+            }
+        });
+
     }
 
     public void navigate(View view) {
