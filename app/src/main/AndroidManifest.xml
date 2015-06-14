@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.qr.girish.qramazeon" >
+    package="com.qr.girish.qramazeon"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="15"
+        android:targetSdkVersion="22" />
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -12,12 +18,9 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".MainActivity"
+            android:name="com.qr.girish.qramazeon.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,30 +29,26 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SwagListActivity"
+            android:name="com.qr.girish.qramazeon.SwagListActivity"
             android:label="@string/title_activity_list" >
         </activity>
         <activity
-            android:name=".ProductActivity"
+            android:name="com.qr.girish.qramazeon.ProductActivity"
             android:label="@string/title_activity_product_activty" >
         </activity>
         <activity
-            android:name=".CartActivity"
+            android:name="com.qr.girish.qramazeon.CartActivity"
             android:label="@string/title_activity_cart" >
         </activity>
         <activity
-            android:name=".LoadCart"
+            android:name="com.qr.girish.qramazeon.LoadCart"
             android:label="@string/title_activity_load_cart" >
         </activity>
         <activity
-            android:name=".TimeActivity"
+            android:name="com.qr.girish.qramazeon.TimeActivity"
             android:label="Time Activity" />
-        <activity
-            android:name="com.google.android.gms.ads.AdActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
-            android:theme="@android:style/Theme.Translucent" />
-        <activity
-            android:name=".WalletActivity"
+<activity
+            android:name="com.qr.girish.qramazeon.WalletActivity"
             android:label="@string/title_activity_wallet" >
         </activity>
     </application>

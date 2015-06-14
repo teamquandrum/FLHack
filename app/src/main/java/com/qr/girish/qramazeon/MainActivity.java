@@ -31,6 +31,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -46,6 +47,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
     static Context context;
     String qr = "A";
     String toqr = "";
+    boolean nav = false;
 
     private MyScanner mScannerView;
     String TAG = "fgt";
@@ -103,6 +105,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
                 qr = rawResult.getContents().toString();
                 Log.e("Last known orientation",String.valueOf(degree));
                 rootLayout.removeView(findViewById(R.id.qr_ground));
+                
                 View.inflate(this, R.layout.ground_qr, rootLayout);
                 timer = new Timer();
                 timer.schedule(new TimerTask() {
@@ -130,7 +133,6 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
         int degree2 = Math.round(event.values[0]);
         if(degree2!=degree) {
             degree = degree2;
-            Toast.makeText(this, String.valueOf(degree), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -145,6 +147,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 
     public void startNavigation(View view) {
 
+        nav = true;
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.add("controller","floor");
@@ -160,7 +163,33 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] response) {
-                // called when response HTTP status is "200 OK"
+                try {
+                    String s = new String(response);
+                    JSONObject obj = new JSONObject(s);
+                    JSONObject result = obj.getJSONObject("result");
+                    for (Iterator<String> i = result.keys(); i.hasNext(); ) {
+                        int p = Integer.parseInt(i.next());
+                        int dir = result.getInt(p + "");
+                        String direction = "";
+                        switch (dir) {
+                            case 1:
+                                direction = "FORWARD";
+                                break;
+                            case 2:
+                                direction = "RIGHT";
+                                break;
+                            case 3:
+                                direction = "BACKWARD";
+                                break;
+                            case 4:
+                                direction = "LEFT";
+                                break;
+                        }
+                        if (p == qr.toLowerCase().charAt(0) - 'a') Toast.makeText(MainActivity.this, direction, Toast.LENGTH_LONG).show();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override

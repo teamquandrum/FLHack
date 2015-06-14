@@ -1,16 +1,11 @@
 package com.qr.girish.qramazeon;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-
-import org.w3c.dom.Text;
 
 
 public class ProductActivity extends ActionBarActivity {
@@ -39,18 +34,7 @@ public class ProductActivity extends ActionBarActivity {
 
         String keywords[] = name.split(" ");
 
-        AdView mAdView = (AdView) findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder()
-                .addKeyword(keywords[1])
-                .addKeyword(keywords[0])
-                .addKeyword(keywords[2])
-                .addKeyword("Lenovo")
-                .addKeyword("Laptop")
-                .addKeyword("Dell")
-                .addKeyword("shirt")
-                .addKeyword("pant")
-                .build();
-        mAdView.loadAd(adRequest);
+
 
     }
 
