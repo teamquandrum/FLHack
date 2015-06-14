@@ -71,11 +71,11 @@ public class LoadCart extends ActionBarActivity {
                 adapter = new ArrayAdapter<String>(LoadCart.this, R.layout.list_item, R.id.firstLine, gg);
                 lv.setAdapter(adapter);
 
-                // MyAdapter adapter = new MyAdapter(AnswerActivity.this, generateData());
+                // MyAdapter2 adapter = new MyAdapter2(AnswerActivity.this, generateData());
                 TextView t = (TextView) findViewById(R.id.t);
                 t.setText("");
 
-                MyAdapter adapter = new MyAdapter(LoadCart.this, generateData());
+                MyAdapter2 adapter = new MyAdapter2(LoadCart.this, generateData());
                 ListView listView = (ListView) findViewById(R.id.load_cart);
                 listView.setAdapter(adapter);
 

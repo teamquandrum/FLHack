@@ -175,6 +175,7 @@ public class FireMissilesDialogFragment extends DialogFragment {
                             @Override
                             public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
                                 // called when response HTTP status is "4XX" (eg. 401, 403, 404)
+                                e.printStackTrace();
                             }
 
                             @Override
@@ -223,6 +224,7 @@ public class FireMissilesDialogFragment extends DialogFragment {
                 return true;
             case R.id.action_time:
                 startActivity(new Intent(MainActivity.this, TimeActivity.class));
+                return true;
             case R.id.action_add:
                 //startActivity(new Intent(MainActivity.this, MainActivity.class));
             case R.id.action_settings:

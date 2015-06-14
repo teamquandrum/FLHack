@@ -8,6 +8,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,6 +18,14 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.apache.http.Header;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -76,6 +85,88 @@ public class CartActivity extends ActionBarActivity {
         });
     }
 
+    public void pay(View view)
+    {
+        double price = new Cart().getAmount();
+        Parcels.wallet -= price;
+    }
+
+    public void finalize(View view)
+    {
+        int time = new Cart().getBillTime();
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.add("controller", "time");
+        params.add("action", "addtime");
+        params.add("time", time+"");
+        client.get("http://qr.gear.host/index.php/manager", params, new AsyncHttpResponseHandler() {
+
+            @Override
+            public void onStart() {
+                // called before request is started
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+                // called when response HTTP status is "200 OK"
+                Log.e("JSON", new String(response));
+
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+                // called when response HTTP status is "4XX" (eg. 401, 403, 404)
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onRetry(int retryNo) {
+                // called when request is retried
+            }
+        });
+    }
+
+    public void done(View view)
+    {
+        int time = new Cart().getBillTime();
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.add("controller", "time");
+        params.add("action", "reducetime");
+        params.add("time", time+"");
+        client.get("http://qr.gear.host/index.php/manager", params, new AsyncHttpResponseHandler() {
+
+            @Override
+            public void onStart() {
+                // called before request is started
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+                // called when response HTTP status is "200 OK"
+                Log.e("JSON", new String(response));
+                new Cart().deleteAll();
+                Intent intent = getIntent();
+                finish();
+                startActivity(intent);
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+                // called when response HTTP status is "4XX" (eg. 401, 403, 404)
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onRetry(int retryNo) {
+                // called when request is retried
+            }
+        });
+    }
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -92,6 +183,12 @@ public class CartActivity extends ActionBarActivity {
         switch (item.getItemId()) {
             case R.id.action_search:
                 //startActivity(new Intent(MainActivity.this, CartActivity.class));
+                return true;
+            case R.id.action_wallet:
+                startActivity(new Intent(CartActivity.this, WalletActivity.class));
+                return true;
+            case R.id.action_time:
+                startActivity(new Intent(CartActivity.this, TimeActivity.class));
                 return true;
             case R.id.action_add:
                 startActivity(new Intent(CartActivity.this, MainActivity.class));
