@@ -85,4 +85,8 @@ public class Cart {
         return myCart;
     }
 
+    public int getBillTime() {
+        return (int)(myCart.size()*0.5);
+    }
+
 }
