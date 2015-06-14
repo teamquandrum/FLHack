@@ -1,4 +1,5 @@
 package com.qr.girish.qramazeon;
+
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -6,12 +7,14 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AlertDialog;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -25,9 +28,10 @@ public class CartActivity extends ActionBarActivity {
     String askerid[];       //discount
     String qid[];           //barcode
     private ListView lv;
+    private String saveName = "";
     ArrayAdapter<String> adapter;
 
-    int gindex=0;
+    int gindex = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,12 +44,12 @@ public class CartActivity extends ActionBarActivity {
         lv = (ListView) findViewById(R.id.list_view);
 
         String[] gg = {" "};
-        adapter = new ArrayAdapter<String>(CartActivity.this, R.layout.list_item, R.id.firstLine, gg );
+        adapter = new ArrayAdapter<String>(CartActivity.this, R.layout.list_item, R.id.firstLine, gg);
         lv.setAdapter(adapter);
 
         // MyAdapter adapter = new MyAdapter(AnswerActivity.this, generateData());
 
-        TextView t = (TextView)findViewById(R.id.t);
+        TextView t = (TextView) findViewById(R.id.t);
 
         t.setText("");
 
@@ -63,7 +67,7 @@ public class CartActivity extends ActionBarActivity {
             public boolean onItemLongClick(AdapterView<?> arg0, View v,
                                            int index, long arg3) {
                 // TODO Auto-generated method stub
-                gindex=index;
+                gindex = index;
                 DialogFragment newFragment = new FireMissilesDialogFragment();
                 newFragment.show(getSupportFragmentManager(), "missiles");
 
@@ -103,7 +107,7 @@ public class CartActivity extends ActionBarActivity {
         }
     }
 
-    private ArrayList<CartItem> generateData(){
+    private ArrayList<CartItem> generateData() {
         ArrayList<CartItem> items = new ArrayList<CartItem>();
         //items.add(new Item("Item 1","First Item on the list"));
         //items.add(new Item("Item 2","Second Item on the list"));
@@ -111,11 +115,10 @@ public class CartActivity extends ActionBarActivity {
         //Log.e("cart", new Cart().getCart().get(0).name);
         ArrayList<CartItem> a = new Cart().getCart();
 
-        for(int i=0; i<a.size()/*names1.length*/; i++)
-        {
+        for (int i = 0; i < a.size()/*names1.length*/; i++) {
             //items.add(new Item(names1[i], dates1[i]));
 
-                items.add(new CartItem(a.get(i).name, a.get(i).price));
+            items.add(new CartItem(a.get(i).name, a.get(i).price));
 
 
         }
@@ -141,6 +144,49 @@ public class CartActivity extends ActionBarActivity {
     //acknowledge?
     //pls?
     //;_;
+
+    public void clear(View view) {
+        new Cart().deleteAll();
+        Intent i = getIntent();
+        finish();
+        startActivity(i);
+    }
+
+    public void saveCart(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Title");
+
+        // Set up the input
+        final EditText input = new EditText(this);
+        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+
+        // Set up the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                saveName = input.getText().toString();
+                new Cart().saveCart(saveName);
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+
+
+    }
+
+    public void loadCart(View view) {
+        Intent i = new Intent (this, LoadCart.class);
+        startActivity(i);
+        finish();
+    }
 
     public class FireMissilesDialogFragment extends DialogFragment {
         @Override

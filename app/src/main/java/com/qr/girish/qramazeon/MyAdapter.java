@@ -1,9 +1,6 @@
 package com.qr.girish.qramazeon;
 
 import android.content.Context;
-import android.text.Spannable;
-import android.text.Spanned;
-import android.text.style.StrikethroughSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,19 +39,19 @@ public class MyAdapter extends ArrayAdapter<Item> {
             ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
 
 
-            valueView.setText(itemsArrayList.get(position).getDescription(), TextView.BufferType.SPANNABLE);
+            valueView.setText(itemsArrayList.get(position).getDescription());
             //tvMRP.setText(text, TextView.BufferType.SPANNABLE);
-            Spannable spannable = (Spannable) valueView.getText();
-            if(itemsArrayList.get(position).getDescription().indexOf(',')>=0)
-                spannable.setSpan(new StrikethroughSpan(), 9, itemsArrayList.get(position).getDescription().indexOf(','), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            //spannable.setSpan(new StrikethroughSpan(), 4, itemsArrayList.get(position).getDescription().indexOf(',')-1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//            Spannable spannable = (Spannable) valueView.getText();
+//            if(itemsArrayList.get(position).getDescription().indexOf(',')>=0)
+//                spannable.setSpan(new StrikethroughSpan(), 9, itemsArrayList.get(position).getDescription().indexOf(','), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//            //spannable.setSpan(new StrikethroughSpan(), 4, itemsArrayList.get(position).getDescription().indexOf(',')-1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
             // 4. Set the text for textView 
             labelView.setText(itemsArrayList.get(position).getTitle());
             //valueView.setText(itemsArrayList.get(position).getDescription());
             imageView.setImageDrawable(itemsArrayList.get(position).getImage());
  
-            // 5. retrn rowView
+            // 5. return rowView
             return rowView;
         }
 }

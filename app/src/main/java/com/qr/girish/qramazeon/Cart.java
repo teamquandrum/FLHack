@@ -1,6 +1,7 @@
 package com.qr.girish.qramazeon;
 
 import android.os.Environment;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -89,27 +90,66 @@ public class Cart {
         return (int) (myCart.size() * 0.5);
     }
 
+    public int getAmount() {
+        int sum = 0;
+        for(int i=0; i<myCart.size();++i)
+            sum+=myCart.get(i).price;
+        return sum;
+    }
+
     public void saveCart(String name) {
         try {
+            File folder = new File(Environment.getExternalStorageDirectory() + File.separator + "Saved");
+            boolean success = true;
+            if (!folder.exists()) {
+                success = folder.mkdir();
+            }
+            if (success) {
+                Log.e("Directory exists", "Chill");
+            } else {
+                folder.mkdir();
+            }
             File file = new File(Environment.getExternalStorageDirectory() + File.separator + "Saved" + File.separator + name + ".tmp");
             FileOutputStream fos = new FileOutputStream(file);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(myCart);
             oos.close();
+            Log.e("Saved Cart", "saveCart");
         } catch (Exception e) {
+            Log.e("Exception saving file", "saveCart");
             e.printStackTrace();
         }
     }
 
     public void loadCart(String name) {
+        File folder = new File(Environment.getExternalStorageDirectory() + File.separator + "Saved");
+        boolean success = true;
+        if (!folder.exists()) {
+            success = folder.mkdir();
+        }
+        if (success) {
+            Log.e("Directory exists", "Chill");
+        } else {
+            folder.mkdir();
+        }
         myCart = new ArrayList<CartItem>();
-        File file = new File(Environment.getExternalStorageDirectory() + File.separator + "Saved" + File.separator + name + ".tmp");
+        File file = new File(Environment.getExternalStorageDirectory() + File.separator + "Saved" + File.separator + name);
         FileInputStream fis = null;
         try {
             fis = new FileInputStream(file);
             ObjectInputStream ois = new ObjectInputStream(fis);
             myCart = (ArrayList<CartItem>) ois.readObject();
             ois.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            file = new File(Environment.getExternalStorageDirectory() + File.separator + "oldcart.tmp");
+            FileOutputStream fos = new FileOutputStream(file);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(myCart);
+            oos.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
