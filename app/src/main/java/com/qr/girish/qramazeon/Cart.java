@@ -86,7 +86,34 @@ public class Cart {
     }
 
     public int getBillTime() {
-        return (int)(myCart.size()*0.5);
+        return (int) (myCart.size() * 0.5);
     }
+
+    public void saveCart(String name) {
+        try {
+            File file = new File(Environment.getExternalStorageDirectory() + File.separator + "Saved" + File.separator + name + ".tmp");
+            FileOutputStream fos = new FileOutputStream(file);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(myCart);
+            oos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void loadCart(String name) {
+        myCart = new ArrayList<CartItem>();
+        File file = new File(Environment.getExternalStorageDirectory() + File.separator + "Saved" + File.separator + name + ".tmp");
+        FileInputStream fis = null;
+        try {
+            fis = new FileInputStream(file);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            myCart = (ArrayList<CartItem>) ois.readObject();
+            ois.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }

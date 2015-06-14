@@ -1,52 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:background="#000000" >
+    android:layout_height="fill_parent">
+
+
     <LinearLayout
-        android:id="@+id/linearLayout1"
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:background="@drawable/buttonshape2"
-        android:shadowColor="#A8A8A8"
-        android:shadowDx="0"
-        android:shadowDy="0"
-        android:shadowRadius="5"
-        android:text="Button"
-        android:textColor="#000000"
-        android:textSize="30sp"
+        android:id="@+id/idz"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:orientation="vertical"
-        android:clickable="true" />
+        android:background="#000000" >
 
+        <LinearLayout
+            android:orientation="horizontal"
+            android:id="@+id/saveload"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <!-- Editext for Search -->
-    <!--
-    <EditText android:id="@+id/inputSearch"
+            <Button
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:onClick="saveCart"
+                android:text="Save This Cart"/>
+
+            <Button
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:onClick="loadCart"
+                android:text="Load A Cart"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:id="@+id/tools"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:onClick="clear"
+                android:text="Clear All"/>
+
+            <Button
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:onClick="finalize"
+                android:text="Finalize"/>
+
+            <Button
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:onClick="done"
+                android:text="Checkout"/>
+
+            <Button
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:onClick="pay"
+                android:text="Pay"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/idz"
+        android:id="@+id/mainLay"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:hint="Search quizzes.."
-        android:inputType="textVisiblePassword"
-        android:textColor="#f7f6ee"/>
-  -->
-    <!-- List View -->
-    <ListView
-        android:id="@+id/list_view"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+        android:orientation="vertical"
+        android:background="#000000" >
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Menu->About for more information"
-        android:textColor="#fcfaf2"
-        android:autoLink="web"
-        android:textSize="12dp"
-        android:layout_gravity="bottom"
-        android:gravity="center"
-        android:id="@+id/t"
-        />
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/buttonshape2"
+            android:shadowColor="#A8A8A8"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="5"
+            android:text="Button"
+            android:textColor="#000000"
+            android:textSize="30sp"
+            android:orientation="vertical"
+            android:clickable="true" />
 
-</LinearLayout>
+
+        <!-- Editext for Search -->
+        <!--
+        <EditText android:id="@+id/inputSearch"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="Search quizzes.."
+            android:inputType="textVisiblePassword"
+            android:textColor="#f7f6ee"/>
+      -->
+        <!-- List View -->
+
+        <ListView
+            android:id="@+id/list_view"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Menu->About for more information"
+            android:textColor="#fcfaf2"
+            android:autoLink="web"
+            android:textSize="12dp"
+            android:layout_gravity="bottom"
+            android:gravity="center"
+            android:id="@+id/t"
+            />
+    </LinearLayout>
+
+</RelativeLayout>
