@@ -1,6 +1,7 @@
 package com.qr.girish.qramazeon;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.hardware.Sensor;
@@ -16,13 +17,17 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import org.apache.http.Header;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -38,11 +43,15 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
     Timer timer;
     int degree = 0;
     private SensorManager mSensorManager;
+    static Context context;
+    String qr = "A";
+    String toqr = "";
 
     private MyScanner mScannerView;
     String TAG = "fgt";
-
+    private AutoCompleteTextView actv;
     String barcode = null;
+    String itemArray[];
 
     @Override
     public void onCreate(Bundle state) {
@@ -52,6 +61,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
         setContentView(mScannerView);                // Set the scanner view as the content
         setTitle("Scan Code");
         rootLayout = (FrameLayout) findViewById(android.R.id.content);
+        context = this;
     }
 
     @Override
@@ -90,6 +100,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
                 startActivity(in);
             } catch (NumberFormatException e) {
                 //This is a ground QR Code
+                qr = rawResult.getContents().toString();
                 Log.e("Last known orientation",String.valueOf(degree));
                 rootLayout.removeView(findViewById(R.id.qr_ground));
                 View.inflate(this, R.layout.ground_qr, rootLayout);
@@ -116,12 +127,53 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        degree = Math.round(event.values[0]);
+        int degree2 = Math.round(event.values[0]);
+        if(degree2!=degree) {
+            degree = degree2;
+            Toast.makeText(this, String.valueOf(degree), Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
         //Cry
+    }
+
+    public void callEmployee(View view) {
+        Toast.makeText(this,"An employee will help you at "+qr+" soon.",Toast.LENGTH_SHORT).show();
+    }
+
+    public void startNavigation(View view) {
+
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.add("controller","floor");
+        params.add("action","getpathto");
+        params.add("start",qr.toLowerCase().charAt(0)-'a'+"");
+        params.add("keyword",actv.getText().toString());
+        client.get("http://qr.gear.host/index.php/manager",params, new AsyncHttpResponseHandler() {
+
+            @Override
+            public void onStart() {
+                // called before request is started
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+                // called when response HTTP status is "200 OK"
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+                // called when response HTTP status is "4XX" (eg. 401, 403, 404)
+            }
+
+            @Override
+            public void onRetry(int retryNo) {
+                // called when request is retried
+            }
+        });
+
     }
 
 public class FireMissilesDialogFragment extends DialogFragment {
@@ -237,7 +289,14 @@ public class FireMissilesDialogFragment extends DialogFragment {
 
     public void closePopup(View view) {
         timer.cancel();
-        rootLayout.removeView(findViewById(R.id.qr_ground));
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                rootLayout.removeView(findViewById(R.id.qr_ground));
+
+
+            }
+        });
     }
 
     public void closePopup() {
@@ -256,10 +315,59 @@ public class FireMissilesDialogFragment extends DialogFragment {
         timer.cancel();
         closePopup();
         View.inflate(this, R.layout.navigate_layout, rootLayout);
+        actv = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView1);
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.add("controller","floor");
+        params.add("action","getitems");
+        client.get("http://qr.gear.host/index.php/manager",params, new AsyncHttpResponseHandler() {
+
+            @Override
+            public void onStart() {
+                // called before request is started
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+                // called when response HTTP status is "200 OK"
+                JSONObject result = null;
+                try {
+                    result = new JSONObject(new String(response));
+                    Log.e("result",new String(response));
+                JSONArray items = result.getJSONArray("result");
+                itemArray = new String[items.length()];
+                    Log.e("result",items.length()+"");
+                for(int i=0; i<items.length();++i)
+                    itemArray[i] = items.getString(i);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,android.R.layout.simple_list_item_1,itemArray);
+                actv.setAdapter(adapter);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+                // called when response HTTP status is "4XX" (eg. 401, 403, 404)
+            }
+
+            @Override
+            public void onRetry(int retryNo) {
+                // called when request is retried
+            }
+        });
     }
 
-    public void closeNavigationPopup(View view) {
-        rootLayout.removeView(findViewById(R.id.nav_lay));
+    public void closeNavigatePopup(View view) {
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                rootLayout.removeView(findViewById(R.id.nav_lay));
+
+
+            }
+        });
     }
 
 
